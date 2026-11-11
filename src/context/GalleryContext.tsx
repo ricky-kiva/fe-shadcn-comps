@@ -6,6 +6,11 @@ interface GalleryContextValue {
   sortMode: SortMode;
   setSortMode: (mode: SortMode) => void;
   toggleSortMode: () => void;
+  selectedComponents: string[];
+  setSelectedComponents: React.Dispatch<React.SetStateAction<string[]>>;
+  toggleComponentFilter: (componentName: string) => void;
+  selectAllFilters: (allNames: string[]) => void;
+  clearFilters: () => void;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
   resetOrder: () => void;
@@ -17,9 +22,24 @@ const GalleryContext = React.createContext<GalleryContextValue | undefined>(unde
 export function GalleryProvider({ children }: { children: React.ReactNode }) {
   const [sortMode, setSortMode] = React.useState<SortMode>("alphabetical");
   const [searchQuery, setSearchQuery] = React.useState<string>("");
+  const [selectedComponents, setSelectedComponents] = React.useState<string[]>([]);
 
   const toggleSortMode = React.useCallback(() => {
     setSortMode((prev) => (prev === "alphabetical" ? "custom" : "alphabetical"));
+  }, []);
+
+  const toggleComponentFilter = React.useCallback((name: string) => {
+    setSelectedComponents((prev) =>
+      prev.includes(name) ? prev.filter((item) => item !== name) : [...prev, name]
+    );
+  }, []);
+
+  const selectAllFilters = React.useCallback((allNames: string[]) => {
+    setSelectedComponents([...allNames]);
+  }, []);
+
+  const clearFilters = React.useCallback(() => {
+    setSelectedComponents([]);
   }, []);
 
   const resetOrder = React.useCallback(() => {
@@ -28,6 +48,7 @@ export function GalleryProvider({ children }: { children: React.ReactNode }) {
 
   const resetFilter = React.useCallback(() => {
     setSearchQuery("");
+    setSelectedComponents([]);
   }, []);
 
   const value = React.useMemo(
@@ -35,12 +56,27 @@ export function GalleryProvider({ children }: { children: React.ReactNode }) {
       sortMode,
       setSortMode,
       toggleSortMode,
+      selectedComponents,
+      setSelectedComponents,
+      toggleComponentFilter,
+      selectAllFilters,
+      clearFilters,
       searchQuery,
       setSearchQuery,
       resetOrder,
       resetFilter,
     }),
-    [sortMode, toggleSortMode, searchQuery, resetOrder, resetFilter]
+    [
+      sortMode,
+      toggleSortMode,
+      selectedComponents,
+      toggleComponentFilter,
+      selectAllFilters,
+      clearFilters,
+      searchQuery,
+      resetOrder,
+      resetFilter,
+    ]
   );
 
   return <GalleryContext.Provider value={value}>{children}</GalleryContext.Provider>;

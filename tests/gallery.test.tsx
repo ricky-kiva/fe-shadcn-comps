@@ -18,11 +18,13 @@ describe("GalleryContext", () => {
   it("provides default gallery values inside GalleryProvider", () => {
     let capturedSort = "";
     let capturedQuery = "";
+    let capturedSelected: string[] = ["initial"];
 
     function Consumer() {
-      const { sortMode, searchQuery } = useGallery();
+      const { sortMode, searchQuery, selectedComponents } = useGallery();
       capturedSort = sortMode;
       capturedQuery = searchQuery;
+      capturedSelected = selectedComponents;
       return null;
     }
 
@@ -34,5 +36,6 @@ describe("GalleryContext", () => {
 
     expect(capturedSort).toBe("alphabetical");
     expect(capturedQuery).toBe("");
+    expect(capturedSelected).toEqual([]);
   });
 });
