@@ -1,8 +1,8 @@
 import logoUrl from "@/assets/logo-1-1.png";
 import { ComponentFilter } from "./ComponentFilter";
-import { SortToggle } from "./SortToggle";
+import { SortDropdown } from "./SortDropdown";
 import { ThemeToggle } from "./ThemeToggle";
-import { SettingsDropdown } from "./SettingsDropdown";
+import { ColumnSelector } from "./ColumnSelector";
 
 export function Header() {
   return (
@@ -22,10 +22,10 @@ export function Header() {
 
         {/* Right: Controls */}
         <div className="flex items-center gap-2">
-          <SortToggle />
+          <ColumnSelector />
+          <SortDropdown />
           <ComponentFilter />
           <ThemeToggle />
-          <SettingsDropdown />
         </div>
       </div>
     </header>

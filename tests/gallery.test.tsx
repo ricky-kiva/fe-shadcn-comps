@@ -153,4 +153,27 @@ describe("GalleryContext", () => {
     hookValues.resetFilter();
     expect(mockStorage[COMPONENT_FILTER_STORAGE_KEY]).toBeUndefined();
   });
+
+  it("persists filter selections when calling setSelectedComponents directly", () => {
+    let hookValues!: GalleryContextValue;
+
+    function Consumer() {
+      hookValues = useGallery();
+      return null;
+    }
+
+    renderToString(
+      <GalleryProvider>
+        <Consumer />
+      </GalleryProvider>
+    );
+
+    hookValues.setSelectedComponents(["Button", "Card", "Dialog"]);
+    expect(mockStorage[COMPONENT_FILTER_STORAGE_KEY]).toBeDefined();
+    const stored = JSON.parse(mockStorage[COMPONENT_FILTER_STORAGE_KEY]);
+    expect(stored).toEqual(["Button", "Card", "Dialog"]);
+
+    hookValues.setSelectedComponents([]);
+    expect(mockStorage[COMPONENT_FILTER_STORAGE_KEY]).toBeUndefined();
+  });
 });

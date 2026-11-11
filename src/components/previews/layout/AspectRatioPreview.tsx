@@ -3,7 +3,7 @@ import stockAspect from "@/assets/stock-aspect-ratio-1-1.jpg";
 
 export function AspectRatioPreview() {
   return (
-    <div className="w-full max-w-[150px] overflow-hidden rounded-sm border border-border bg-canvas-soft shadow-xs">
+    <div className="w-[150px] overflow-hidden rounded-sm border border-border bg-canvas-soft shadow-xs">
       <AspectRatioPrimitive.Root ratio={16 / 9}>
         <img
           src={stockAspect}
