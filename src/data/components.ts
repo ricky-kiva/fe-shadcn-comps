@@ -409,3 +409,13 @@ export function getAlphabeticalOrder(): string[] {
     .sort((a, b) => a.name.localeCompare(b.name))
     .map((c) => c.id);
 }
+
+export function getCategoryOrder(): string[] {
+  return [...COMPONENT_REGISTRY]
+    .sort((a, b) => {
+      const catCompare = a.category.localeCompare(b.category);
+      if (catCompare !== 0) return catCompare;
+      return a.name.localeCompare(b.name);
+    })
+    .map((c) => c.id);
+}

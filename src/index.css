@@ -6,8 +6,8 @@
 
 @layer base {
   :root {
-    --canvas: #ffffff;
-    --canvas-soft: #fafafa;
+    --canvas: #fafafa;
+    --canvas-soft: #f4f4f5;
     --ink: #171717;
     --primary: #171717;
     --on-primary: #ffffff;
@@ -16,9 +16,9 @@
     --body: #4d4d4d;
     --mute: #888888;
     --link: #0070f3;
-    --card: #ffffff;
+    --card: #fafafa;
     --card-foreground: #171717;
-    --popover: #ffffff;
+    --popover: #fafafa;
     --popover-foreground: #171717;
     --shadow-stacked: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04), 0 12px 24px rgba(0, 0, 0, 0.06);
   }
