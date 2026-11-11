@@ -45,6 +45,9 @@
   - Every component cell displays exactly one component, centered, with realistic interactive sample data.
   - Dragging must only initiate from the designated drag handle icon, preventing accidental drag events during component interaction.
   - If a requested component is not available in the installed shadcn/ui library, do not implement a placeholder or makeshift version without informing the user.
+- **Stock Images & Assets:**
+  - When a component requires a stock image, download it from `https://picsum.photos/{width}/{height}`, adjusting the width and height as needed.
+  - Save the image in `src/assets` using the filename format `stock-{component_name}-{integer_revision}-{integer_nth_image}`, where `integer_revision` is the image revision number and `integer_nth_image` is the image sequence number within that component, starting from 1.
 - **Design System:** Strictly adhere to `DESIGN.md`:
   - Default theme: Dark mode.
   - Visual restraint: Ink primary (`#171717`), subtle 1px hairline borders (`#ebebeb` light / `#262626` dark), stacked elevation shadows, Geist/Geist Mono typography, -2.4px tracking on display headers.
