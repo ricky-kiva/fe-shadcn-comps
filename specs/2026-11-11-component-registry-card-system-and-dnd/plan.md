@@ -50,17 +50,20 @@ Task Group 4: DndContext Grid Engine & DragOverlay Integration
 
 ---
 
-### Task Group 2: Custom Order State & LocalStorage Persistence
+### Task Group 2: Custom Order & Filter State LocalStorage Persistence
 
-#### Task 2.1: Custom Order State in `GalleryContext`
-**Description:** Extend `src/context/GalleryContext.tsx` to manage `customOrder: string[]` initialized from `localStorage` (`shadcn_explorer_custom_order`) falling back to `getInitialOrder()`. Implement `reorderComponents(activeId, overId)` using `arrayMove` and update `resetOrder()` to restore default order.
+#### Task 2.1: Order & Filter State Persistence in `GalleryContext`
+**Description:** Extend `src/context/GalleryContext.tsx` to manage `customOrder: string[]` (persisted under `shadcn_explorer_custom_order`) and `selectedComponents: string[]` (persisted under `shadcn_explorer_component_filter`). Implement `reorderComponents(activeId, overId)` using `arrayMove`, update `resetOrder()` to restore default order, and ensure `resetFilter()` clears stored filter key.
 **Acceptance criteria:**
-- [ ] `customOrder` defaults to the 53 IDs in initial order if no stored order exists.
-- [ ] `reorderComponents(activeId, overId)` shifts the active item to the target index using `arrayMove` and updates `localStorage`.
-- [ ] `resetOrder()` resets `customOrder` to `getInitialOrder()`, clears storage, and sets `sortMode` to `"alphabetical"`.
-- [ ] Named export `export function useGallery()` exposes `customOrder`, `reorderComponents`, `resetOrder`.
+- [ ] `customOrder` initializes from `localStorage` (`shadcn_explorer_custom_order`) falling back to `getInitialOrder()`.
+- [ ] `selectedComponents` initializes from `localStorage` (`shadcn_explorer_component_filter`) falling back to empty array.
+- [ ] `reorderComponents(activeId, overId)` updates order and persists to `localStorage`.
+- [ ] Toggling filters updates `selectedComponents` and persists to `localStorage`.
+- [ ] `resetOrder()` resets order, clears storage, and switches sort mode to `"alphabetical"`.
+- [ ] `resetFilter()` clears active filters and clears storage key.
+- [ ] Named export `export function useGallery()` exposes all state and action handlers.
 **Verification:**
-- [ ] Unit tests in `tests/gallery.test.tsx` verifying reordering and persistence.
+- [ ] Unit tests in `tests/gallery.test.tsx` verifying reordering, filter toggling, and `localStorage` persistence.
 **Dependencies:** Task 1.1
 **Files likely touched:**
 - `src/context/GalleryContext.tsx`
@@ -69,8 +72,8 @@ Task Group 4: DndContext Grid Engine & DragOverlay Integration
 
 ---
 
-### Checkpoint 2: Custom Order State Verified
-- [ ] Unit tests verify `reorderComponents` moves items accurately and persists to `localStorage`.
+### Checkpoint 2: Custom Order & Filter Persistence Verified
+- [ ] Unit tests verify `reorderComponents` and filter toggles persist accurately to `localStorage`.
 
 ---
 

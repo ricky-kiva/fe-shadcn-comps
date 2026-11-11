@@ -37,11 +37,12 @@ The objective is to enable users to view the complete catalog of 53 standard cor
    - Comprehensive metadata map for all 53 standard core shadcn components.
    - Helper utilities: `getInitialOrder()`, `getAlphabeticalOrder()`, `getComponentById()`.
 
-2. **Custom Order State Management (`src/context/GalleryContext.tsx`):**
-   - Manages state for `customOrder: string[]` (array of component IDs).
-   - Synchronizes `customOrder` with `localStorage` under key `shadcn_explorer_custom_order`.
-   - Action handler `reorderComponents(activeId: string, overId: string)`: computes new order using `arrayMove`.
-   - Action handler `resetOrder()`: resets `sortMode` to `"alphabetical"`, resets `customOrder` to default sequence, and updates `localStorage`.
+2. **Custom Order & Filter State Management (`src/context/GalleryContext.tsx`):**
+   - Manages state for `customOrder: string[]` (array of component IDs) and synchronizes with `localStorage` under key `shadcn_explorer_custom_order`.
+   - Manages state for `selectedComponents: string[]` (active checkbox filter selection) and synchronizes with `localStorage` under key `shadcn_explorer_component_filter`.
+   - Action handler `reorderComponents(activeId: string, overId: string)`: computes new order using `arrayMove` and updates `localStorage`.
+   - Action handler `resetOrder()`: resets `sortMode` to `"alphabetical"`, resets `customOrder` to default sequence, and clears saved custom order in `localStorage`.
+   - Action handler `resetFilter()`: clears active filter selections and clears `shadcn_explorer_component_filter` in `localStorage`.
 
 3. **Sortable Card Architecture (`src/components/gallery/SortableComponentCard.tsx`):**
    - Integrates `useSortable({ id })` from `@dnd-kit/sortable`.
@@ -78,7 +79,7 @@ The objective is to enable users to view the complete catalog of 53 standard cor
 | **Collision Detection** | `closestCenter` algorithm | Standard for grid sorting; accurately identifies target drop cells in both row and column directions. |
 | **Sensor Activation** | `PointerSensor` with `distance: 5` | Prevents pointer down/click events from accidentally initiating dragging when users interact with the card. |
 | **Drag Overlay** | `<DragOverlay>` portal component | Decouples the active dragging element from DOM re-renders, enabling smooth 60fps drag physics without grid layout thrashing. |
-| **Order Persistence** | `localStorage` key `shadcn_explorer_custom_order` | Persists user-defined arrangement across sessions without backend dependencies. |
+| **Order & Filter Persistence** | `localStorage` keys: `shadcn_explorer_custom_order` and `shadcn_explorer_component_filter` | Persists user-defined card arrangements and active checkbox component filters across sessions without backend dependencies. |
 
 ---
 

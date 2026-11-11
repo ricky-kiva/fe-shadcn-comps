@@ -59,12 +59,12 @@ This roadmap outlines the high-level implementation order for SHADCN Explorer, s
   4. **Sorting & Filtering Orchestration:**
      - Alphabetical mode: Automatically sort components alphabetically and disable manual dragging.
      - Custom mode: Enable drag handles and preserve user-defined component arrangement.
-     - Real-time search filter with immediate visual narrowing (<50ms latency).
-     - Settings menu actions to reset custom order and clear active filters.
+     - Component filtering: Dropdown menu with checkboxes and search, persisting active selection in `localStorage` (`shadcn_explorer_component_filter`).
+     - Reset actions to restore default custom order and clear active filters.
 - **Exit Criteria:**
   - Dragging only activates via the drag handle and successfully rearranges cells in Custom mode.
   - Alphabetical mode sorts deterministically and disables dragging.
-  - Filter instantly filters cards, and resets work reliably.
+  - Component filter persists selection in `localStorage`, updates grid instantaneously, and resets work reliably.
 
 ---
 

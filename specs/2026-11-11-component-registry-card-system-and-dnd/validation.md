@@ -42,11 +42,14 @@ Every command below must execute cleanly and exit with code 0:
 - [ ] Releasing the drag (drop event) immediately settles the card in its new position and updates `customOrder`.
 - [ ] Pressing `Escape` during a drag cancels the operation and returns the card to its original position.
 
-### D. Custom Order Persistence
+### D. Custom Order & Filter Persistence
 - [ ] Rearranging cards in Custom mode persists the new order to `localStorage` under `shadcn_explorer_custom_order`.
 - [ ] Reloading the browser page in Custom mode preserves the exact user-defined arrangement.
 - [ ] Switching to Alphabetical mode and back to Custom mode preserves the user-defined arrangement.
 - [ ] Clicking "Reset Custom Order" in the Settings dropdown restores the default registry sequence and updates `localStorage`.
+- [ ] Active checkbox component filter selections persist to `localStorage` under `shadcn_explorer_component_filter`.
+- [ ] Reloading the browser page preserves active checkbox component filters.
+- [ ] Resetting the filter (via Filter dropdown or Settings) clears the stored filter key in `localStorage` and restores all components.
 
 ### E. Keyboard Reordering Accessibility
 - [ ] Focusing the drag handle via keyboard (`Tab`) and pressing `Space` initiates drag mode.
