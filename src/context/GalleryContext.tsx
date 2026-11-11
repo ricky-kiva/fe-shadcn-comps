@@ -160,9 +160,33 @@ export function GalleryProvider({
   const [customOrder, setCustomOrder] = React.useState<string[]>(
     () => initialCustomOrder ?? loadInitialCustomOrder()
   );
-  const [selectedComponents, setSelectedComponents] = React.useState<string[]>(
+  const [selectedComponents, setSelectedComponentsState] = React.useState<string[]>(
     () => initialSelectedComponents ?? loadInitialComponentFilter()
   );
+
+  const setSelectedComponents = React.useCallback(
+    (action: React.SetStateAction<string[]>) => {
+      const current = selectedComponentsRef.current;
+      const next = typeof action === "function" ? action(current) : action;
+      selectedComponentsRef.current = next;
+      setSelectedComponentsState(next);
+
+      if (next.length > 0) {
+        setSafeStorageItem(COMPONENT_FILTER_STORAGE_KEY, JSON.stringify(next));
+      } else {
+        removeSafeStorageItem(COMPONENT_FILTER_STORAGE_KEY);
+      }
+    },
+    []
+  );
+
+  React.useEffect(() => {
+    if (selectedComponents.length > 0) {
+      setSafeStorageItem(COMPONENT_FILTER_STORAGE_KEY, JSON.stringify(selectedComponents));
+    } else {
+      removeSafeStorageItem(COMPONENT_FILTER_STORAGE_KEY);
+    }
+  }, [selectedComponents]);
   const [maxColumns, setMaxColumns] = React.useState<number>(() => {
     const width = typeof window !== "undefined" ? window.innerWidth : 1200;
     return calculateMaxColumns(width);

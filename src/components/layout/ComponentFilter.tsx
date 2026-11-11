@@ -20,21 +20,35 @@ const CATEGORIES: readonly ComponentCategory[] = [
   "Navigation",
   "Overlay",
 ];
+const EXPANDED_CATEGORIES_STORAGE_KEY = "shadcn_explorer_expanded_categories";
 
-export function ComponentFilter({ className }: { className?: string }) {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [searchQuery, setSearchQuery] = React.useState("");
-  const [expandedCategories, setExpandedCategories] = React.useState<
-    Record<string, boolean>
-  >({
+function loadInitialExpandedCategories(): Record<string, boolean> {
+  try {
+    if (typeof window !== "undefined" && window.localStorage) {
+      const saved = window.localStorage.getItem(EXPANDED_CATEGORIES_STORAGE_KEY);
+      if (saved) {
+        return JSON.parse(saved);
+      }
+    }
+  } catch {
+    // fallback
+  }
+  return {
     Forms: true,
     "Data Display": true,
     Feedback: true,
     Layout: true,
     Navigation: true,
     Overlay: true,
-  });
+  };
+}
 
+export function ComponentFilter({ className }: { className?: string }) {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [expandedCategories, setExpandedCategories] = React.useState<
+    Record<string, boolean>
+  >(loadInitialExpandedCategories);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
   const {
     selectedComponents,
@@ -69,10 +83,20 @@ export function ComponentFilter({ className }: { className?: string }) {
   }, [isOpen]);
 
   const toggleCategoryExpand = (cat: string) => {
-    setExpandedCategories((prev) => ({
-      ...prev,
-      [cat]: !prev[cat],
-    }));
+    setExpandedCategories((prev) => {
+      const next = { ...prev, [cat]: !prev[cat] };
+      try {
+        if (typeof window !== "undefined" && window.localStorage) {
+          window.localStorage.setItem(
+            EXPANDED_CATEGORIES_STORAGE_KEY,
+            JSON.stringify(next)
+          );
+        }
+      } catch {
+        // fallback
+      }
+      return next;
+    });
   };
 
   const categoriesWithComponents = React.useMemo(() => {
