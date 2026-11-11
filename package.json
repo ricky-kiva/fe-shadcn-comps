@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "tsc": "tsc --noEmit",
-    "test": "node --test"
+    "test": "node --experimental-strip-types --test"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
