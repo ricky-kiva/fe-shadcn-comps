@@ -18,8 +18,9 @@ describe("Layout Component Previews (8 components)", () => {
     expect(html).toContain("Is it accessible?");
   });
 
-  it("renders AspectRatioPreview with 16:9 ratio and image", () => {
+  it("renders AspectRatioPreview with 16:9 ratio, image, and explicit width", () => {
     const html = renderToString(<AspectRatioPreview />);
+    expect(html).toContain("w-[150px]");
     expect(html).toContain("<img");
   });
 

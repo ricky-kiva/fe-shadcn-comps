@@ -2,7 +2,7 @@ import stockCard from "@/assets/stock-card-1-1.jpg";
 
 export function CardPreview() {
   return (
-    <div className="w-full max-w-[150px] overflow-hidden rounded-sm border border-border bg-canvas shadow-xs text-left">
+    <div className="w-[150px] overflow-hidden rounded-sm border border-border bg-canvas shadow-xs text-left">
       <div className="h-12 w-full overflow-hidden border-b border-border">
         <img
           src={stockCard}

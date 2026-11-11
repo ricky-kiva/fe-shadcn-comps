@@ -24,7 +24,7 @@ export function CarouselPreview() {
   const currentSlide = slides[slide] ?? fallback;
 
   return (
-    <div className="relative w-full max-w-[150px] overflow-hidden rounded-sm border border-border bg-canvas shadow-xs">
+    <div className="relative w-[150px] overflow-hidden rounded-sm border border-border bg-canvas shadow-xs">
       <div className="relative h-16 w-full">
         <img
           src={currentSlide.src}
