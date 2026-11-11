@@ -24,6 +24,7 @@ import {
 } from "@/data/components";
 import { ComponentCard } from "./ComponentCard";
 import { SortableComponentCard } from "./SortableComponentCard";
+import { getComponentPreview } from "@/components/previews";
 import { cn } from "@/lib/utils";
 
 export function ComponentGrid({ className }: { className?: string }) {
@@ -147,14 +148,19 @@ export function ComponentGrid({ className }: { className?: string }) {
             className
           )}
         >
-          {visibleComponents.map((comp) => (
-            <SortableComponentCard
-              key={comp.id}
-              id={comp.id}
-              name={comp.name}
-              isDraggable={sortMode === "custom"}
-            />
-          ))}
+          {visibleComponents.map((comp) => {
+            const Preview = getComponentPreview(comp.id);
+            return (
+              <SortableComponentCard
+                key={comp.id}
+                id={comp.id}
+                name={comp.name}
+                isDraggable={sortMode === "custom"}
+              >
+                <Preview />
+              </SortableComponentCard>
+            );
+          })}
         </div>
       </SortableContext>
 
@@ -165,7 +171,9 @@ export function ComponentGrid({ className }: { className?: string }) {
               id={activeComponent.id}
               name={activeComponent.name}
               isDraggable={true}
-            />
+            >
+              {React.createElement(getComponentPreview(activeComponent.id))}
+            </ComponentCard>
           </div>
         ) : null}
       </DragOverlay>
