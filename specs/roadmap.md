@@ -52,7 +52,7 @@ This roadmap outlines the high-level implementation order for SHADCN Explorer, s
      - Centered preview display area with overflow protection.
      - Subtle monospace component title at the bottom.
   3. **Drag-and-Drop Engine:**
-     - Integrate audited drag-and-drop library (`@hello-pangea/dnd` or `@dnd-kit`).
+     - Integrate audited drag-and-drop library (`@dnd-kit`).
      - Constrain drag initiation strictly to the drag handle icon.
      - Provide visual feedback for the dragged item and potential drop position.
      - Update custom order state immediately on drop.

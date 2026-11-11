@@ -10,7 +10,7 @@
 | **Styling** | **Tailwind CSS** | Atomic utility styling supporting design tokens and custom CSS variables defined in `DESIGN.md`. |
 | **Component Primitives** | **shadcn/ui & Radix UI** | Accessible, headless, unstyled primitives with high customizability and ARIA compliance. |
 | **Icons** | **Lucide React** | Consistent, lightweight, clean iconography aligned with shadcn/ui conventions. |
-| **Drag & Drop** | **@hello-pangea/dnd** or **@dnd-kit** | Smooth, accessible drag-and-drop grid reordering. Verified via Socket CLI before install. |
+| **Drag & Drop** | **@dnd-kit** (`@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/utilities`) | Modular, accessible 2D grid reordering (`rectSortingStrategy`) with lean dependencies and verified Socket security score (99 supply chain, 100 vulnerability). |
 | **Theme Management** | **Lightweight Context / next-themes** | Seamless dark/light theme switching with persistent client-side storage and dark mode as default. |
 
 ---

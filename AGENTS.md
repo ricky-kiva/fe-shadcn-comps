@@ -21,7 +21,7 @@
 ### Tech Stack
 - **Framework & Runtime:** React 19 / React 18, TypeScript (strict mode), Vite
 - **UI & Styling:** Tailwind CSS, shadcn/ui, Radix UI Primitives, Lucide React (icons)
-- **Drag & Drop:** `@hello-pangea/dnd` or `@dnd-kit` (verified via Socket and Context7 before installation)
+- **Drag & Drop:** `@dnd-kit` (`@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/utilities` — verified via Socket and Context7 before installation)
 
 ### Commands
 - **Development Server:** `npm run dev`
