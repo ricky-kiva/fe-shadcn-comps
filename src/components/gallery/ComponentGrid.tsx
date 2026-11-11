@@ -19,6 +19,7 @@ import { SearchX, RotateCcw } from "lucide-react";
 import { useGallery } from "@/context/GalleryContext";
 import {
   getAlphabeticalOrder,
+  getCategoryOrder,
   getComponentById,
   type ComponentDefinition,
 } from "@/data/components";
@@ -35,6 +36,8 @@ export function ComponentGrid({ className }: { className?: string }) {
     selectedComponents,
     searchQuery,
     resetFilter,
+    gridColumns,
+    showDragHint,
   } = useGallery();
 
   const [activeId, setActiveId] = React.useState<string | null>(null);
@@ -51,7 +54,9 @@ export function ComponentGrid({ className }: { className?: string }) {
   );
 
   const baseIds = React.useMemo(() => {
-    return sortMode === "alphabetical" ? getAlphabeticalOrder() : customOrder;
+    if (sortMode === "alphabetical") return getAlphabeticalOrder();
+    if (sortMode === "category") return getCategoryOrder();
+    return customOrder;
   }, [sortMode, customOrder]);
 
   const visibleComponents = React.useMemo(() => {
@@ -142,9 +147,11 @@ export function ComponentGrid({ className }: { className?: string }) {
     >
       <SortableContext items={visibleIds} strategy={rectSortingStrategy}>
         <div
+          style={{
+            gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))`,
+          }}
           className={cn(
-            "grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6",
-            "gap-px bg-border border-b border-border",
+            "grid w-full gap-px bg-border border-b border-border",
             className
           )}
         >
@@ -156,6 +163,7 @@ export function ComponentGrid({ className }: { className?: string }) {
                 id={comp.id}
                 name={comp.name}
                 isDraggable={sortMode === "custom"}
+                showDragHint={showDragHint}
               >
                 <Preview />
               </SortableComponentCard>

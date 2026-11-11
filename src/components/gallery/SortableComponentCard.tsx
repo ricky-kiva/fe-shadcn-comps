@@ -7,6 +7,7 @@ export interface SortableComponentCardProps {
   id: string;
   name: string;
   isDraggable?: boolean;
+  showDragHint?: boolean;
   children?: React.ReactNode;
   className?: string;
 }
@@ -15,6 +16,7 @@ export function SortableComponentCard({
   id,
   name,
   isDraggable = true,
+  showDragHint = false,
   children,
   className,
 }: SortableComponentCardProps) {
@@ -43,6 +45,7 @@ export function SortableComponentCard({
       name={name}
       isDraggable={isDraggable}
       isDragging={isDragging}
+      showDragHint={showDragHint}
       dragHandleProps={{
         ...attributes,
         ...listeners,

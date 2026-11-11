@@ -7,6 +7,7 @@ export interface ComponentCardProps {
   name: string;
   isDraggable?: boolean;
   isDragging?: boolean;
+  showDragHint?: boolean;
   dragHandleProps?: React.HTMLAttributes<HTMLDivElement>;
   children?: React.ReactNode;
   className?: string;
@@ -20,6 +21,7 @@ export const ComponentCard = React.forwardRef<HTMLDivElement, ComponentCardProps
       name,
       isDraggable = true,
       isDragging = false,
+      showDragHint = false,
       dragHandleProps,
       children,
       className,
@@ -39,11 +41,14 @@ export const ComponentCard = React.forwardRef<HTMLDivElement, ComponentCardProps
           className
         )}
       >
-        {/* Drag handle (positioned absolute so it never shifts the center slot) */}
+        {/* Drag handle (hover-only in Custom mode with temporary simultaneous hint support) */}
         {isDraggable && (
           <div
             aria-label={`Drag handle for ${name}`}
-            className="absolute top-2.5 right-2.5 z-10 flex h-6 w-6 items-center justify-center rounded-xs text-neutral-500 hover:text-foreground cursor-grab active:cursor-grabbing transition-colors"
+            className={cn(
+              "absolute top-2.5 right-2.5 z-10 flex h-6 w-6 items-center justify-center rounded-xs text-neutral-500 hover:text-foreground cursor-grab active:cursor-grabbing transition-opacity duration-300",
+              showDragHint ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+            )}
             {...dragHandleProps}
           >
             <GripVertical className="h-3.5 w-3.5" />

@@ -2,11 +2,29 @@ import * as React from "react";
 import { arrayMove } from "@dnd-kit/sortable";
 import { getInitialOrder } from "@/data/components";
 
-export type SortMode = "alphabetical" | "custom";
+export type SortMode = "alphabetical" | "category" | "custom";
 
 export const CUSTOM_ORDER_STORAGE_KEY = "shadcn_explorer_custom_order";
 export const COMPONENT_FILTER_STORAGE_KEY = "shadcn_explorer_component_filter";
+export const GRID_COLUMNS_STORAGE_KEY = "shadcn_explorer_grid_columns";
 
+export function calculateMaxColumns(width: number): number {
+  if (width <= 0) return 5;
+  const max = Math.floor(width / 170);
+  return Math.max(1, Math.min(10, max));
+}
+
+function loadInitialGridColumns(): number {
+  const saved = getSafeStorageItem(GRID_COLUMNS_STORAGE_KEY);
+  if (saved) {
+    const num = parseInt(saved, 10);
+    if (!isNaN(num) && num >= 1) {
+      return num;
+    }
+  }
+  const width = typeof window !== "undefined" ? window.innerWidth : 1200;
+  return calculateMaxColumns(width);
+}
 function getSafeStorageItem(key: string): string | null {
   try {
     if (typeof window !== "undefined" && window.localStorage) {
@@ -83,6 +101,13 @@ export interface GalleryContextValue {
   setSearchQuery: (query: string) => void;
   resetOrder: () => void;
   resetFilter: () => void;
+  gridColumns: number;
+  maxColumns: number;
+  setGridColumns: (cols: number) => void;
+  incrementColumns: () => void;
+  decrementColumns: () => void;
+  showDragHint: boolean;
+  triggerDragHint: () => void;
 }
 const GalleryContext = React.createContext<GalleryContextValue | undefined>(undefined);
 
@@ -101,7 +126,36 @@ export function GalleryProvider({
   initialCustomOrder,
   initialSelectedComponents,
 }: GalleryProviderProps) {
-  const [sortMode, setSortMode] = React.useState<SortMode>(initialSortMode);
+  const [sortMode, setSortModeState] = React.useState<SortMode>(initialSortMode);
+  const [showDragHint, setShowDragHint] = React.useState<boolean>(false);
+  const dragHintTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const triggerDragHint = React.useCallback(() => {
+    setShowDragHint(true);
+    clearTimeout(dragHintTimerRef.current as NodeJS.Timeout);
+    dragHintTimerRef.current = setTimeout(() => {
+      setShowDragHint(false);
+    }, 2500);
+  }, []);
+
+  React.useEffect(() => {
+    return () => {
+      clearTimeout(dragHintTimerRef.current as NodeJS.Timeout);
+    };
+  }, []);
+
+  const setSortMode = React.useCallback(
+    (modeOrFn: React.SetStateAction<SortMode>) => {
+      setSortModeState((prev) => {
+        const next = typeof modeOrFn === "function" ? modeOrFn(prev) : modeOrFn;
+        if (next === "custom" && prev !== "custom") {
+          triggerDragHint();
+        }
+        return next;
+      });
+    },
+    [triggerDragHint]
+  );
   const [searchQuery, setSearchQuery] = React.useState<string>(initialSearchQuery);
   const [customOrder, setCustomOrder] = React.useState<string[]>(
     () => initialCustomOrder ?? loadInitialCustomOrder()
@@ -109,6 +163,41 @@ export function GalleryProvider({
   const [selectedComponents, setSelectedComponents] = React.useState<string[]>(
     () => initialSelectedComponents ?? loadInitialComponentFilter()
   );
+  const [maxColumns, setMaxColumns] = React.useState<number>(() => {
+    const width = typeof window !== "undefined" ? window.innerWidth : 1200;
+    return calculateMaxColumns(width);
+  });
+  const [gridColumns, setGridColumnsState] = React.useState<number>(loadInitialGridColumns);
+
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleResize = () => {
+      const newMax = calculateMaxColumns(window.innerWidth);
+      setMaxColumns(newMax);
+      setGridColumnsState((prev) => Math.min(prev, newMax));
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const setGridColumns = React.useCallback(
+    (cols: number) => {
+      const clamped = Math.max(1, Math.min(maxColumns, cols));
+      setGridColumnsState(clamped);
+      setSafeStorageItem(GRID_COLUMNS_STORAGE_KEY, String(clamped));
+    },
+    [maxColumns]
+  );
+
+  const incrementColumns = React.useCallback(() => {
+    setGridColumns(gridColumns + 1);
+  }, [gridColumns, setGridColumns]);
+
+  const decrementColumns = React.useCallback(() => {
+    setGridColumns(gridColumns - 1);
+  }, [gridColumns, setGridColumns]);
   const customOrderRef = React.useRef(customOrder);
   customOrderRef.current = customOrder;
 
@@ -198,9 +287,17 @@ export function GalleryProvider({
       setSearchQuery,
       resetOrder,
       resetFilter,
+      gridColumns,
+      maxColumns,
+      setGridColumns,
+      incrementColumns,
+      decrementColumns,
+      showDragHint,
+      triggerDragHint,
     }),
     [
       sortMode,
+      setSortMode,
       toggleSortMode,
       customOrder,
       reorderComponents,
@@ -211,6 +308,13 @@ export function GalleryProvider({
       searchQuery,
       resetOrder,
       resetFilter,
+      gridColumns,
+      maxColumns,
+      setGridColumns,
+      incrementColumns,
+      decrementColumns,
+      showDragHint,
+      triggerDragHint,
     ]
   );
 
