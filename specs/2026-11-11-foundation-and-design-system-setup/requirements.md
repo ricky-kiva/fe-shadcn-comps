@@ -21,12 +21,12 @@ This foundation ensures that all subsequent feature phases (Header/Shell, Grid &
 
 ### In Scope
 1. **Build & Tooling Scaffolding:**
-   - `package.json` with scripts: `dev`, `build`, `preview`, `lint`, and `tsc`.
+   - `package.json` with scripts: `dev`, `build`, `preview`, `lint`, `tsc`, and `test` (`vitest run`).
    - `vite.config.ts` configured with React plugin and `@/` path alias pointing to `./src`.
    - `tsconfig.json`, `tsconfig.app.json`, and `tsconfig.node.json` with strict type checking enabled (`strict: true`, `noImplicitAny: true`).
 2. **Dependency Installation & Safety Audit:**
    - Production dependencies: `react`, `react-dom`, `clsx`, `tailwind-merge`, `class-variance-authority`, `lucide-react`, and `@dnd-kit` primitives (`@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/utilities`).
-   - Development dependencies: `typescript`, `@types/react`, `@types/react-dom`, `vite`, `@vitejs/plugin-react`, `tailwindcss`, `postcss`, `autoprefixer`.
+   - Development dependencies: `typescript`, `@types/react`, `@types/react-dom`, `@types/node`, `vite`, `@vitejs/plugin-react`, `tailwindcss`, `postcss`, `autoprefixer`, `vitest`.
    - Security verification using Socket CLI (`socket`).
 3. **Styling & Token Architecture:**
    - Tailwind configuration integrated with `src/index.css`.
@@ -62,6 +62,7 @@ This foundation ensures that all subsequent feature phases (Header/Shell, Grid &
 | **Default Theme** | Dark mode default | Mandated by `INITIAL-IDEA.md` and `DESIGN.md`. Root element initializes with `dark` class. |
 | **Icon Library** | `lucide-react` | Standard iconography for shadcn/ui with clean stroke geometry matching Geist typography. |
 | **Drag & Drop Engine** | `@dnd-kit` | Verified via Socket scan (99 supply chain, 100 vulnerability); built for 2D responsive grid sorting. |
+| **Testing Framework** | Vitest | First-class Vite integration sharing Vite plugins, aliases, and fast ESM execution. |
 
 ---
 
