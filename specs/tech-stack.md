@@ -12,7 +12,6 @@
 | **Icons** | **Lucide React** | Consistent, lightweight, clean iconography aligned with shadcn/ui conventions. |
 | **Drag & Drop** | **@dnd-kit** (`@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/utilities`) | Modular, accessible 2D grid reordering (`rectSortingStrategy`) with lean dependencies and verified Socket security score (99 supply chain, 100 vulnerability). |
 | **Theme Management** | **Lightweight Context / next-themes** | Seamless dark/light theme switching with persistent client-side storage and dark mode as default. |
-| **Testing Framework** | **Vitest** | Native Vite test runner sharing Vite plugins, path aliases, and fast ESM execution. |
 
 ---
 

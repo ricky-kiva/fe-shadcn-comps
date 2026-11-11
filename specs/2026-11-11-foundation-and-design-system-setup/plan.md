@@ -31,7 +31,7 @@ Task Group 4: shadcn CLI Config & Foundational Smoke Harness
 **Description:** Create `package.json` with project metadata, dependencies structure, and executable scripts (`dev`, `build`, `preview`, `lint`, `tsc`).
 **Acceptance criteria:**
 - [ ] `package.json` is configured as `"type": "module"`.
-- [ ] Scripts defined: `dev`, `build`, `preview`, `lint`, `tsc: "tsc --noEmit"`, and `test: "vitest run"`.
+- [ ] Scripts defined: `dev`, `build`, `preview`, `lint`, and `tsc: "tsc --noEmit"`.
 **Verification:**
 - [ ] Validate JSON syntax: `node -e "JSON.parse(require('fs').readFileSync('package.json'))"`
 **Dependencies:** None
@@ -69,7 +69,7 @@ Task Group 4: shadcn CLI Config & Foundational Smoke Harness
 #### Task 2.1: Audit & Install Production & Dev Dependencies
 **Description:** Verify required packages via Socket CLI (`socket`) and install them.
 - Production: `react`, `react-dom`, `clsx`, `tailwind-merge`, `class-variance-authority`, `lucide-react`, `@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/utilities`.
-- Development: `typescript`, `@types/react`, `@types/react-dom`, `@types/node`, `vite`, `@vitejs/plugin-react`, `tailwindcss`, `postcss`, `autoprefixer`, `vitest`.
+- Development: `typescript`, `@types/react`, `@types/react-dom`, `@types/node`, `vite`, `@vitejs/plugin-react`, `tailwindcss`, `postcss`, `autoprefixer`.
 **Acceptance criteria:**
 - [ ] All packages pass Socket security audit without high-severity alerts.
 - [ ] `package-lock.json` generated and consistent.
@@ -129,7 +129,7 @@ Task Group 4: shadcn CLI Config & Foundational Smoke Harness
 - [ ] `cn()` handles conditional classes, undefined values, and resolves conflicting Tailwind classes deterministically.
 - [ ] Named export `export function cn(...)` used (no default export).
 **Verification:**
-- [ ] Unit tests via Vitest: `npm test` (`vitest run`).
+- [ ] Unit test or inline verification of `cn()` class merging.
 **Dependencies:** Task 2.1
 **Files likely touched:**
 - `src/lib/utils.ts`
