@@ -84,17 +84,31 @@ export interface GalleryContextValue {
   resetOrder: () => void;
   resetFilter: () => void;
 }
-
 const GalleryContext = React.createContext<GalleryContextValue | undefined>(undefined);
 
-export function GalleryProvider({ children }: { children: React.ReactNode }) {
-  const [sortMode, setSortMode] = React.useState<SortMode>("alphabetical");
-  const [searchQuery, setSearchQuery] = React.useState<string>("");
-  const [customOrder, setCustomOrder] = React.useState<string[]>(loadInitialCustomOrder);
-  const [selectedComponents, setSelectedComponents] = React.useState<string[]>(
-    loadInitialComponentFilter
-  );
+export interface GalleryProviderProps {
+  children: React.ReactNode;
+  initialSortMode?: SortMode;
+  initialSearchQuery?: string;
+  initialCustomOrder?: string[];
+  initialSelectedComponents?: string[];
+}
 
+export function GalleryProvider({
+  children,
+  initialSortMode = "alphabetical",
+  initialSearchQuery = "",
+  initialCustomOrder,
+  initialSelectedComponents,
+}: GalleryProviderProps) {
+  const [sortMode, setSortMode] = React.useState<SortMode>(initialSortMode);
+  const [searchQuery, setSearchQuery] = React.useState<string>(initialSearchQuery);
+  const [customOrder, setCustomOrder] = React.useState<string[]>(
+    () => initialCustomOrder ?? loadInitialCustomOrder()
+  );
+  const [selectedComponents, setSelectedComponents] = React.useState<string[]>(
+    () => initialSelectedComponents ?? loadInitialComponentFilter()
+  );
   const customOrderRef = React.useRef(customOrder);
   customOrderRef.current = customOrder;
 
