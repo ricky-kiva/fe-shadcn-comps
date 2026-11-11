@@ -36,11 +36,12 @@ export function Footer({ className }: { className?: string }) {
     <footer
       className={cn(
         "fixed bottom-0 left-0 right-0 z-30 pointer-events-none",
-        "bg-gradient-to-t from-canvas via-canvas/95 to-transparent pt-8 pb-3",
+        "h-14 flex items-center justify-center",
+        "bg-gradient-to-t from-canvas via-canvas/95 to-transparent",
         className
       )}
     >
-      <div className="mx-auto flex max-w-7xl flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 px-4 text-xs font-mono text-neutral-500 pointer-events-auto">
+      <div className="mx-auto flex max-w-7xl flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-4 px-4 text-xs font-mono text-neutral-500 pointer-events-auto">
         <div className="flex items-center gap-2">
           {socialLinks.map(({ label, href, icon: Icon }) => (
             <a

@@ -11,7 +11,7 @@ export function App() {
         <div className="flex min-h-screen flex-col bg-background text-foreground antialiased selection:bg-neutral-800 selection:text-white">
           <Header />
 
-          <main className="flex-1 w-full pb-28">
+          <main className="flex-1 w-full pb-14">
             <ComponentGrid />
           </main>
 

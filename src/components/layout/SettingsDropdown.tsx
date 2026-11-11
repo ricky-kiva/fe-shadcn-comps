@@ -1,12 +1,12 @@
 import * as React from "react";
-import { SlidersHorizontal, RotateCcw, FilterX } from "lucide-react";
+import { SlidersHorizontal, RotateCcw } from "lucide-react";
 import { useGallery } from "@/context/GalleryContext";
 import { cn } from "@/lib/utils";
 
 export function SettingsDropdown({ className }: { className?: string }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
-  const { resetOrder, resetFilter } = useGallery();
+  const { resetOrder } = useGallery();
 
   React.useEffect(() => {
     if (!isOpen) return;
@@ -68,19 +68,6 @@ export function SettingsDropdown({ className }: { className?: string }) {
           >
             <RotateCcw className="h-3.5 w-3.5 text-neutral-400" />
             <span>Reset Custom Order</span>
-          </button>
-
-          <button
-            type="button"
-            role="menuitem"
-            onClick={() => {
-              resetFilter();
-              setIsOpen(false);
-            }}
-            className="flex w-full items-center gap-2 rounded-xs px-2.5 py-1.5 text-left hover:bg-canvas-soft transition-colors"
-          >
-            <FilterX className="h-3.5 w-3.5 text-neutral-400" />
-            <span>Reset Component Filter</span>
           </button>
         </div>
       )}
