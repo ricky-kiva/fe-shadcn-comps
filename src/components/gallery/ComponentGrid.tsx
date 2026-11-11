@@ -41,6 +41,36 @@ export function ComponentGrid({ className }: { className?: string }) {
   } = useGallery();
 
   const [activeId, setActiveId] = React.useState<string | null>(null);
+  const gridContainerRef = React.useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = React.useState<number>(0);
+
+  React.useEffect(() => {
+    if (!gridContainerRef.current) return;
+
+    const el = gridContainerRef.current;
+    if (el.clientWidth > 0) {
+      setContainerWidth(el.clientWidth);
+    }
+
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.contentRect.width > 0) {
+          setContainerWidth(entry.contentRect.width);
+        }
+      }
+    });
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const scaleFactor = React.useMemo(() => {
+    if (!containerWidth || gridColumns <= 0) return 1.0;
+    const computedCellWidth = (containerWidth - (gridColumns - 1)) / gridColumns;
+    const actualCellWidth = Math.max(200, computedCellWidth);
+    const rawScale = actualCellWidth / 200;
+    return Math.max(1.0, Math.min(2.5, Number(rawScale.toFixed(2))));
+  }, [containerWidth, gridColumns]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -147,11 +177,12 @@ export function ComponentGrid({ className }: { className?: string }) {
     >
       <SortableContext items={visibleIds} strategy={rectSortingStrategy}>
         <div
+          ref={gridContainerRef}
           style={{
-            gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))`,
+            gridTemplateColumns: `repeat(${gridColumns}, minmax(200px, 1fr))`,
           }}
           className={cn(
-            "grid w-full gap-px bg-border border-b border-border",
+            "grid w-full gap-px bg-border border-b border-border min-w-[200px]",
             className
           )}
         >
@@ -164,6 +195,7 @@ export function ComponentGrid({ className }: { className?: string }) {
                 name={comp.name}
                 isDraggable={sortMode === "custom"}
                 showDragHint={showDragHint}
+                scale={scaleFactor}
               >
                 <Preview />
               </SortableComponentCard>
@@ -179,6 +211,7 @@ export function ComponentGrid({ className }: { className?: string }) {
               id={activeComponent.id}
               name={activeComponent.name}
               isDraggable={true}
+              scale={scaleFactor}
             >
               {React.createElement(getComponentPreview(activeComponent.id))}
             </ComponentCard>
