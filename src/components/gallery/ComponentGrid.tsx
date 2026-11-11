@@ -67,9 +67,9 @@ export function ComponentGrid({ className }: { className?: string }) {
   const scaleFactor = React.useMemo(() => {
     if (!containerWidth || gridColumns <= 0) return 1.0;
     const computedCellWidth = (containerWidth - (gridColumns - 1)) / gridColumns;
-    const actualCellWidth = Math.max(200, computedCellWidth);
-    const rawScale = actualCellWidth / 200;
-    return Math.max(1.0, Math.min(2.5, Number(rawScale.toFixed(2))));
+    const actualCellWidth = Math.max(224, computedCellWidth);
+    const rawScale = actualCellWidth / 224;
+    return Math.max(1.0, Math.min(2.0, Number(rawScale.toFixed(2))));
   }, [containerWidth, gridColumns]);
 
   const sensors = useSensors(
@@ -179,10 +179,10 @@ export function ComponentGrid({ className }: { className?: string }) {
         <div
           ref={gridContainerRef}
           style={{
-            gridTemplateColumns: `repeat(${gridColumns}, minmax(200px, 1fr))`,
+            gridTemplateColumns: `repeat(${gridColumns}, minmax(224px, 1fr))`,
           }}
           className={cn(
-            "grid w-full gap-px bg-border border-b border-border min-w-[200px]",
+            "grid w-full gap-px bg-border border-b border-border min-w-[224px]",
             className
           )}
         >

@@ -37,7 +37,7 @@ export const ComponentCard = React.forwardRef<HTMLDivElement, ComponentCardProps
         style={style}
         data-component-id={id}
         className={cn(
-          "group relative flex aspect-square w-full min-w-[200px] items-center justify-center bg-canvas p-6 select-none transition-colors overflow-hidden",
+          "group relative flex aspect-square w-full min-w-[224px] items-center justify-center bg-canvas p-6 select-none transition-colors overflow-hidden",
           "hover:bg-canvas-soft/80",
           isDragging && "opacity-40",
           className

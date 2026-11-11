@@ -6,21 +6,21 @@ import { SortableComponentCard } from "@/components/gallery/SortableComponentCar
 import { ComponentGrid } from "@/components/gallery/ComponentGrid";
 import { GalleryProvider, calculateMaxColumns } from "@/context/GalleryContext";
 
-describe("Responsive Cell Sizing & Proportional Component Scaling", () => {
-  it("enforces 200px minimum cell width in calculateMaxColumns", () => {
-    // Widths under 200px must yield 1 column
+describe("Responsive Cell Sizing (224px min) & Component Scaling (2x max)", () => {
+  it("enforces 224px minimum cell width in calculateMaxColumns", () => {
+    // Widths under 224px must yield 1 column
     expect(calculateMaxColumns(150)).toBe(1);
-    // 399px cannot fit two 200px cells
-    expect(calculateMaxColumns(399)).toBe(1);
-    // 400px fits exactly two 200px cells
-    expect(calculateMaxColumns(400)).toBe(2);
-    // 600px fits 3 cells
-    expect(calculateMaxColumns(600)).toBe(3);
+    // 447px cannot fit two 224px cells
+    expect(calculateMaxColumns(447)).toBe(1);
+    // 448px fits exactly two 224px cells
+    expect(calculateMaxColumns(448)).toBe(2);
+    // 672px fits 3 cells
+    expect(calculateMaxColumns(672)).toBe(3);
   });
 
-  it("applies min-w-[200px] constraint to ComponentCard", () => {
+  it("applies min-w-[224px] constraint to ComponentCard", () => {
     const html = renderToString(<ComponentCard id="button" name="Button" />);
-    expect(html).toContain("min-w-[200px]");
+    expect(html).toContain("min-w-[224px]");
   });
 
   it("applies proportional transform scale to the preview content wrapper", () => {
@@ -34,10 +34,10 @@ describe("Responsive Cell Sizing & Proportional Component Scaling", () => {
     );
     expect(htmlScaled).toContain("transform:scale(1.5)");
 
-    const htmlLarge = renderToString(
-      <ComponentCard id="button" name="Button" scale={2.25} />
+    const htmlMax = renderToString(
+      <ComponentCard id="button" name="Button" scale={2.0} />
     );
-    expect(htmlLarge).toContain("transform:scale(2.25)");
+    expect(htmlMax).toContain("transform:scale(2)");
   });
 
   it("forwards scale prop through SortableComponentCard", () => {
@@ -47,12 +47,12 @@ describe("Responsive Cell Sizing & Proportional Component Scaling", () => {
     expect(html).toContain("transform:scale(1.75)");
   });
 
-  it("renders ComponentGrid with minmax(200px, 1fr) track sizing", () => {
+  it("renders ComponentGrid with minmax(224px, 1fr) track sizing", () => {
     const html = renderToString(
       <GalleryProvider>
         <ComponentGrid />
       </GalleryProvider>
     );
-    expect(html).toContain("minmax(200px, 1fr)");
+    expect(html).toContain("minmax(224px, 1fr)");
   });
 });

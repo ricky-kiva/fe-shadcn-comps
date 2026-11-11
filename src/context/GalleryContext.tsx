@@ -10,7 +10,7 @@ export const GRID_COLUMNS_STORAGE_KEY = "shadcn_explorer_grid_columns";
 
 export function calculateMaxColumns(width: number): number {
   if (width <= 0) return 5;
-  const max = Math.floor(width / 200);
+  const max = Math.floor(width / 224);
   return Math.max(1, Math.min(10, max));
 }
 
