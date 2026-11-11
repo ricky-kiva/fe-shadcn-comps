@@ -1,4 +1,3 @@
-import * as React from "react";
 import { ArrowDownAZ, GripVertical } from "lucide-react";
 import { useGallery } from "@/context/GalleryContext";
 import { cn } from "@/lib/utils";

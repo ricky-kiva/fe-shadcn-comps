@@ -1,4 +1,3 @@
-import * as React from "react";
 import logoUrl from "@/assets/logo-1-1.png";
 import { ComponentFilter } from "./ComponentFilter";
 import { SortToggle } from "./SortToggle";

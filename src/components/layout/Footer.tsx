@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Github, Instagram, Linkedin, Coffee, Heart } from "lucide-react";
+import { Coffee, Heart } from "lucide-react";
+import { GithubIcon, InstagramIcon, LinkedinIcon } from "./SocialIcons";
 import { cn } from "@/lib/utils";
 
 interface FooterLink {
@@ -12,17 +12,17 @@ const socialLinks: FooterLink[] = [
   {
     label: "GitHub profile",
     href: "https://github.com/ricky-kiva",
-    icon: Github,
+    icon: GithubIcon,
   },
   {
     label: "Instagram profile",
     href: "https://www.instagram.com/r.ckyslash/",
-    icon: Instagram,
+    icon: InstagramIcon,
   },
   {
     label: "LinkedIn profile",
     href: "https://www.linkedin.com/in/ricky-fadel/",
-    icon: Linkedin,
+    icon: LinkedinIcon,
   },
   {
     label: "Buy me a Coffee",
