@@ -19,6 +19,7 @@ Every command below must be executed and exit with code 0:
 | **Development Server** | `npm run dev` | Local development server starts and serves HMR on localhost without runtime exceptions. |
 | **Package Security** | `socket package score npm <pkg>` | All newly installed dependencies verified clean with zero high-severity CVEs or supply-chain red flags. |
 | **Code Style & Exports** | Static inspection | Named exports exclusively across all components and modules (no default exports). |
+| **Unit Tests (Vitest)** | `npm test` (`vitest run`) | All unit tests execute and pass with zero failures. |
 
 ---
 
