@@ -1,35 +1,108 @@
 import * as React from "react";
+import {
+  DndContext,
+  DragOverlay,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+  type DragStartEvent,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  rectSortingStrategy,
+  sortableKeyboardCoordinates,
+} from "@dnd-kit/sortable";
 import { SearchX, RotateCcw } from "lucide-react";
 import { useGallery } from "@/context/GalleryContext";
-import { CORE_COMPONENTS } from "@/data/components";
+import {
+  getAlphabeticalOrder,
+  getComponentById,
+  type ComponentDefinition,
+} from "@/data/components";
 import { ComponentCard } from "./ComponentCard";
+import { SortableComponentCard } from "./SortableComponentCard";
 import { cn } from "@/lib/utils";
 
 export function ComponentGrid({ className }: { className?: string }) {
-  const { selectedComponents, searchQuery, sortMode, resetFilter } = useGallery();
+  const {
+    sortMode,
+    customOrder,
+    reorderComponents,
+    selectedComponents,
+    searchQuery,
+    resetFilter,
+  } = useGallery();
 
-  const filteredComponents = React.useMemo(() => {
-    let list = [...CORE_COMPONENTS];
+  const [activeId, setActiveId] = React.useState<string | null>(null);
 
-    // Checkbox filter: if active, show only selected components
-    if (selectedComponents.length > 0) {
-      list = list.filter((name) => selectedComponents.includes(name));
-    }
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
-    // Search query filter (if active)
-    const q = searchQuery.trim().toLowerCase();
-    if (q) {
-      list = list.filter((name) => name.toLowerCase().includes(q));
-    }
+  const baseIds = React.useMemo(() => {
+    return sortMode === "alphabetical" ? getAlphabeticalOrder() : customOrder;
+  }, [sortMode, customOrder]);
 
-    if (sortMode === "alphabetical") {
-      list.sort((a, b) => a.localeCompare(b));
-    }
+  const visibleComponents = React.useMemo(() => {
+    return baseIds
+      .map((id) => getComponentById(id))
+      .filter((comp): comp is ComponentDefinition => {
+        if (!comp) return false;
 
-    return list;
-  }, [selectedComponents, searchQuery, sortMode]);
+        // Checkbox category/component filter
+        if (selectedComponents.length > 0 && !selectedComponents.includes(comp.name)) {
+          return false;
+        }
 
-  if (filteredComponents.length === 0) {
+        // Search query filter (matches name, category, or id)
+        const q = searchQuery.trim().toLowerCase();
+        if (q) {
+          const matchesName = comp.name.toLowerCase().includes(q);
+          const matchesCategory = comp.category.toLowerCase().includes(q);
+          const matchesId = comp.id.includes(q);
+          if (!matchesName && !matchesCategory && !matchesId) {
+            return false;
+          }
+        }
+
+        return true;
+      });
+  }, [baseIds, selectedComponents, searchQuery]);
+
+  const visibleIds = React.useMemo(() => {
+    return visibleComponents.map((c) => c.id);
+  }, [visibleComponents]);
+
+  const handleDragStart = React.useCallback((event: DragStartEvent) => {
+    setActiveId(String(event.active.id));
+  }, []);
+
+  const handleDragEnd = React.useCallback(
+    (event: DragEndEvent) => {
+      const { active, over } = event;
+      if (over && active.id !== over.id && sortMode === "custom") {
+        reorderComponents(String(active.id), String(over.id));
+      }
+      setActiveId(null);
+    },
+    [sortMode, reorderComponents]
+  );
+
+  const handleDragCancel = React.useCallback(() => {
+    setActiveId(null);
+  }, []);
+
+  if (visibleComponents.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-24 text-center">
         <div className="flex h-12 w-12 items-center justify-center rounded-sm border border-border bg-canvas-soft text-neutral-400 mb-3">
@@ -56,22 +129,46 @@ export function ComponentGrid({ className }: { className?: string }) {
     );
   }
 
+  const activeComponent = activeId ? getComponentById(activeId) : null;
+
   return (
-    <div
-      className={cn(
-        "grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6",
-        "gap-px bg-border border-b border-border",
-        className
-      )}
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onDragCancel={handleDragCancel}
     >
-      {filteredComponents.map((name) => (
-        <ComponentCard
-          key={name}
-          id={name.toLowerCase().replace(/\s+/g, "-")}
-          name={name}
-          isDraggable={sortMode === "custom"}
-        />
-      ))}
-    </div>
+      <SortableContext items={visibleIds} strategy={rectSortingStrategy}>
+        <div
+          className={cn(
+            "grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6",
+            "gap-px bg-border border-b border-border",
+            className
+          )}
+        >
+          {visibleComponents.map((comp) => (
+            <SortableComponentCard
+              key={comp.id}
+              id={comp.id}
+              name={comp.name}
+              isDraggable={sortMode === "custom"}
+            />
+          ))}
+        </div>
+      </SortableContext>
+
+      <DragOverlay>
+        {activeComponent ? (
+          <div className="aspect-square w-full shadow-stacked cursor-grabbing opacity-95 ring-1 ring-border bg-canvas">
+            <ComponentCard
+              id={activeComponent.id}
+              name={activeComponent.name}
+              isDraggable={true}
+            />
+          </div>
+        ) : null}
+      </DragOverlay>
+    </DndContext>
   );
 }
