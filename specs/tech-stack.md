@@ -12,6 +12,7 @@
 | **Icons** | **Lucide React** | Consistent, lightweight, clean iconography aligned with shadcn/ui conventions. |
 | **Drag & Drop** | **@dnd-kit** (`@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/utilities`) | Modular, accessible 2D grid reordering (`rectSortingStrategy`) with lean dependencies and verified Socket security score (99 supply chain, 100 vulnerability). |
 | **Theme Management** | **Lightweight Context / next-themes** | Seamless dark/light theme switching with persistent client-side storage and dark mode as default. |
+| **Testing Framework** | **Vitest** | Native Vite test runner sharing Vite plugins, path aliases, and fast ESM execution. |
 
 ---
 
@@ -36,6 +37,14 @@ npm run lint
 # Unit & integration testing
 npm test
 ```
+---
+
+## 2.1 Testing Strategy
+
+- **Framework:** Vitest (executable via `npm test` / `vitest run`).
+- **Test Locations:** `tests/**/*.test.ts` (unit tests and integration assertions).
+- **Coverage & Scope:** Pure logic, deterministic state transformations, and utility functions (`cn()`, sorting algorithms, filter matchers). Zero tautological file presence tests.
+- **Test Levels:** Fast in-memory unit tests executing in milliseconds without browser overhead.
 
 ---
 
