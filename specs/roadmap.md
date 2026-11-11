@@ -45,7 +45,7 @@ This roadmap outlines the high-level implementation order for SHADCN Explorer, s
 **Goal:** Establish the centralized component catalog, reusable preview cards, and drag-and-drop reordering mechanics.
 
 - **Milestones:**
-  1. **Centralized Registry:** Create `src/data/components.ts` covering all 71 components from `INITIAL-IDEA.md`.
+  1. **Centralized Registry:** Create `src/data/components.ts` covering the standard core components from `INITIAL-IDEA.md`.
   2. **Reusable ComponentCard:**
      - Uniform aspect-ratio cell container.
      - Isolated drag handle icon in top-right corner.
@@ -81,11 +81,10 @@ This roadmap outlines the high-level implementation order for SHADCN Explorer, s
      - Download required component stock images from `https://picsum.photos/{width}/{height}`.
      - Save into `src/assets/` following `stock-{component_name}-{integer_revision}-{integer_nth_image}`.
   4. **Coverage Audit:**
-     - Map every component against the 71-item inventory.
-     - If any inventory component is not part of shadcn/ui, document and notify the user rather than implementing a fake version.
+     - Map every component against the standard core inventory from `INITIAL-IDEA.md`.
+     - Confirm all non-standard and extended items are excluded from rendering.
 - **Exit Criteria:**
-  - All available components have visually polished, interactive, centered previews.
-  - Non-available components are documented and communicated to the user.
+  - All standard core components have visually polished, interactive, centered previews.
 
 ---
 

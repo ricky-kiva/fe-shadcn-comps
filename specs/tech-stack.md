@@ -166,10 +166,11 @@ export function ComponentCard({
 - **Ask First:**
   - Introducing heavy third-party libraries or animation engines.
   - Changing project routing architecture or state persistence strategies.
-  - Omitting any component from the 71-item inventory if unavailable in shadcn/ui.
+  - Modifying the core component inventory.
 - **Never:**
   - Commit API keys, `.env` files, or secrets.
   - Use `any` type overrides in TypeScript.
+  - Render non-standard or extended components (chat primitives, non-registry items, documentation recipes).
   - Implement makeshift or fake mocks for missing shadcn components without user consultation.
   - Mix marketing 100px pill buttons and in-app 6px controls within the same screen surface.
 
@@ -177,6 +178,6 @@ export function ComponentCard({
 
 ## 8. Performance Budgets
 
-- **Filter Latency:** Real-time search response in under 50ms across all 71 component cards.
+- **Filter Latency:** Real-time search response in under 50ms across all active component cards.
 - **Drag Performance:** Smooth 60fps drag-and-drop animation without layout thrashing.
-- **Bundle Optimization:** Tree-shaken component imports with code-splitting for heavier previews (e.g., Charts, Data Tables).
+- **Bundle Optimization:** Tree-shaken component imports with code-splitting for heavier previews (e.g., Charts).

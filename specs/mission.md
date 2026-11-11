@@ -50,12 +50,13 @@ To build a minimalist, highly refined component gallery following Vercel's stark
   - Compact header with application branding, sort toggle, search filter, theme toggle, and settings dropdown.
   - Understated fixed bottom footer with gradient fade into transparency and creator/social links.
 - **Representative Previews:**
-  - Realistic interactive states for all supported shadcn components from the 71-item inventory in `INITIAL-IDEA.md`.
+  - Realistic interactive states for all standard core shadcn components from the inventory in `INITIAL-IDEA.md`.
   - Offline-first stock asset downloads from `picsum.photos` stored locally in `src/assets/`.
 
 ### Out of Scope (Explicit Non-Goals)
 
+- **Non-Standard & Extended Components:** Do not render non-standard or extended component sets (e.g., chat primitives like `Attachment`, `Bubble`, `Marker`, `Message`, `Message Scroller`, non-registry items like `Questionnaire`, `Trace`, `Code Block`, and documentation guides/recipes like `Data Table`, `Date Picker`, `Typography`). Only standard core shadcn/ui components are supported.
 - **Backend Services & Persistence:** No remote database, user accounts, authentication, or cloud sync. All preference persistence is client-side (`localStorage`).
 - **Live Code Editor / Sandbox:** This is a visual explorer and preview gallery, not an in-browser code editor or REPL.
-- **Synthetic Components:** If an inventory item is not part of the official shadcn/ui library, do not fabricate artificial implementations; flag it to the user.
+- **Synthetic Components:** If an item is not part of standard core shadcn/ui, do not fabricate artificial implementations.
 - **Extraneous Aesthetics:** No neon gradients, decorative 3D cards, heavy drop shadows, or unvetted accent colors that violate `DESIGN.md`.
