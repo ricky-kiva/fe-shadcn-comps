@@ -7,7 +7,7 @@ import { SettingsDropdown } from "./SettingsDropdown";
 export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-canvas/80 backdrop-blur-md">
-      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
+      <div className="flex h-14 items-center justify-between px-4 sm:px-6">
         {/* Left: Branding */}
         <div className="flex items-center gap-2.5">
           <img
